@@ -13,8 +13,7 @@ from datetime import date, timedelta
 from typing import Final
 
 
-class DateParseError(ValueError):
-    """Raised when a date phrase cannot be parsed."""
+DateParseError: type[ValueError] = ValueError
 
 
 MONTHS: Final[dict[str, int]] = {
