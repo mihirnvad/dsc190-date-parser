@@ -315,9 +315,7 @@ def _parse_weekday(phrase: str, today: date) -> date | None:
 
 
 def _parse_special_month_phrase(phrase: str, today: date) -> date | None:
-    match = re.fullmatch(
-        r"(beginning|start|middle|mid|end)(?:\s+of)?\s+(.+)", phrase
-    )
+    match = re.fullmatch(r"(beginning|start|middle|mid|end)(?:\s+of)?\s+(.+)", phrase)
     if match is None:
         return None
 
@@ -360,7 +358,7 @@ def _parse_explicit_date(phrase: str, today: date) -> date | None:
 
     month_names = "|".join(sorted(MONTHS, key=len, reverse=True))
     if match := re.fullmatch(
-        rf"(?:\w+\s+)?({month_names})\s+(\d{{1,2}})(?:\s+(\d{{2,4}}))?",
+        rf"({month_names})\s+(\d{{1,2}})(?:\s+(\d{{2,4}}))?",
         phrase,
     ):
         month_name, day_text, year_text = match.groups()
@@ -368,7 +366,7 @@ def _parse_explicit_date(phrase: str, today: date) -> date | None:
         return _safe_date(year, MONTHS[month_name], int(day_text))
 
     if match := re.fullmatch(
-        rf"(?:\w+\s+)?(\d{{1,2}})\s+({month_names})(?:\s+(\d{{2,4}}))?",
+        rf"(\d{{1,2}})\s+({month_names})(?:\s+(\d{{2,4}}))?",
         phrase,
     ):
         day_text, month_name, year_text = match.groups()
@@ -450,6 +448,7 @@ def _number_to_int(text: str) -> int | None:
 
 
 def _ordinal_to_number(text: str) -> int | None:
+    number: int | None
     if text.isdigit():
         number = int(text)
     else:
